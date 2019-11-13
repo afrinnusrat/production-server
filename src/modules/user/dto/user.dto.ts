@@ -1,40 +1,59 @@
 'use strict';
 
-import { ApiModelPropertyOptional } from '@nestjs/swagger';
+import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 
 import { RoleType } from '../../../common/constants/role-type';
 import { AbstractDto } from '../../../common/dto/abstract.dto';
 import { UserEntity } from '../user.entity';
+import { UserAuthEntity } from '../user-auth.entity';
+import { UserAuthDto } from './user-auth.dto';
 
 export class UserDto extends AbstractDto {
-    @ApiModelPropertyOptional()
+    @ApiModelProperty()
     firstName: string;
 
-    @ApiModelPropertyOptional()
+    @ApiModelProperty()
     lastName: string;
 
-    @ApiModelPropertyOptional()
-    username: string;
-
-    @ApiModelPropertyOptional({ enum: RoleType })
-    role: RoleType;
-
-    @ApiModelPropertyOptional()
+    @ApiModelProperty()
     email: string;
 
-    @ApiModelPropertyOptional()
-    avatar: string;
-
-    @ApiModelPropertyOptional()
+    @ApiModelProperty()
     phone: string;
+
+    @ApiModelProperty()
+    street: string;
+
+    @ApiModelProperty()
+    city: string;
+
+    @ApiModelProperty()
+    state: string;
+
+    @ApiModelProperty()
+    zip: string;
+
+    @ApiModelProperty({ format: 'date' })
+    createdAt: string;
+
+    @ApiModelPropertyOptional({ format: 'date-time' })
+    lastLogin: string;
+
+    @ApiModelPropertyOptional({ format: 'date-time' })
+    lastLogout: string;
 
     constructor(user: UserEntity) {
         super(user);
         this.firstName = user.firstName;
         this.lastName = user.lastName;
-        this.role = user.role;
         this.email = user.email;
-        this.avatar = user.avatar;
         this.phone = user.phone;
+        this.street = user.street;
+        this.city = user.city;
+        this.state = user.state;
+        this.zip = user.zip;
+        this.createdAt = user.createdAt;
+        this.lastLogin = user.lastLogin;
+        this.lastLogout = user.lastLogout;
     }
 }

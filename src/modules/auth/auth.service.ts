@@ -10,6 +10,9 @@ import { UserService } from '../user/user.service';
 import { UserDto } from '../user/dto/user.dto';
 import { ContextService } from '../../providers/context.service';
 import { TokenPayloadDto } from './dto/token-payload.dto';
+import { UserAuthService } from 'modules/user/user-auth.service';
+import { UserAuthEntity } from 'modules/user/user-auth.entity';
+import { UserAuthDto } from 'modules/user/dto/user-auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,27 +22,30 @@ export class AuthService {
         public readonly jwtService: JwtService,
         public readonly configService: ConfigService,
         public readonly userService: UserService,
+        public readonly userAuthService: UserAuthService,
     ) {}
 
-    async createToken(user: UserEntity | UserDto): Promise<TokenPayloadDto> {
+    async createToken(
+        user: UserAuthEntity | UserAuthDto,
+    ): Promise<TokenPayloadDto> {
         return new TokenPayloadDto({
             expiresIn: this.configService.getNumber('JWT_EXPIRATION_TIME'),
             accessToken: await this.jwtService.signAsync({ id: user.id }),
         });
     }
 
-    async validateUser(userLoginDto: UserLoginDto): Promise<UserEntity> {
-        const user = await this.userService.findOne({
-            email: userLoginDto.email,
+    async validateUser(userLoginDto: UserLoginDto): Promise<UserAuthEntity> {
+        const userAuth = await this.userAuthService.findOne({
+            login: userLoginDto.login,
         });
         const isPasswordValid = await UtilsService.validateHash(
             userLoginDto.password,
-            user && user.password,
+            userAuth && userAuth.password,
         );
-        if (!user || !isPasswordValid) {
+        if (!userAuth || !isPasswordValid) {
             throw new UserNotFoundException();
         }
-        return user;
+        return userAuth;
     }
 
     static setAuthUser(user: UserEntity) {

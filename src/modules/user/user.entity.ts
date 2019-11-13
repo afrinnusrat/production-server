@@ -1,32 +1,50 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, CreateDateColumn, OneToOne } from 'typeorm';
 
 import { AbstractEntity } from '../../common/abstract.entity';
 import { RoleType } from '../../common/constants/role-type';
 import { UserDto } from './dto/user.dto';
 import { PasswordTransformer } from './password.transformer';
+import { UserAuthEntity } from './user-auth.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity extends AbstractEntity<UserDto> {
-    @Column({ nullable: true })
+    @Column()
     firstName: string;
 
-    @Column({ nullable: true })
+    @Column()
     lastName: string;
 
-    @Column({ type: 'enum', enum: RoleType, default: RoleType.Worker })
-    role: RoleType;
-
-    @Column({ unique: true, nullable: true })
+    @Column({ unique: true })
     email: string;
 
-    @Column({ nullable: true, transformer: new PasswordTransformer() })
-    password: string;
-
-    @Column({ nullable: true })
+    @Column({ unique: true })
     phone: string;
 
-    @Column({ nullable: true })
-    avatar: string;
+    @Column()
+    street: string;
+
+    @Column()
+    city: string;
+
+    @Column()
+    state: string;
+
+    @Column()
+    zip: string;
+
+    @CreateDateColumn({ type: 'date' })
+    createdAt: string;
+
+    @Column('timestamp with time zone', { nullable: true })
+    lastLogin: string;
+
+    @Column('timestamp with time zone', { nullable: true })
+    lastLogout: string;
+
+    @OneToOne(type => UserAuthEntity, userAuth => userAuth.user, {
+        nullable: false,
+    })
+    userAuth: UserAuthEntity;
 
     dtoClass = UserDto;
 }

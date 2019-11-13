@@ -9,6 +9,7 @@ import { MathModule } from './modules/math/math.module';
 import { UserModule } from './modules/user/user.module';
 import { ConfigService } from './shared/services/config.service';
 import { SharedModule } from './shared/shared.module';
+import { UserAuthService } from 'modules/user/user-auth.service';
 
 @Module({
     imports: [
