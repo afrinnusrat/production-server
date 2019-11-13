@@ -3,7 +3,7 @@ import * as mime from 'mime-types';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from './config.service';
 import { GeneratorService } from './generator.service';
-import { IFile } from '../../interfaces/IFile';
+import { IFile } from '../../interfaces/file.interface';
 
 @Injectable()
 export class AwsS3Service {

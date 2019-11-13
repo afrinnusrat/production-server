@@ -3,7 +3,7 @@ import { FindConditions } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { UserRegisterDto } from '../auth/dto/user-register.dto';
 import { UserRepository } from './user.repository';
-import { IFile } from '../../interfaces/IFile';
+import { IFile } from '../../interfaces/file.interface';
 import { ValidatorService } from '../../shared/services/validator.service';
 import { FileNotImageException } from '../../exceptions/file-not-image.exception';
 import { AwsS3Service } from '../../shared/services/aws-s3.service';

@@ -4,14 +4,20 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
+    Column,
+    Generated,
 } from 'typeorm';
 
 import { UtilsService } from '../providers/utils.service';
 import { AbstractDto } from './dto/abstract.dto';
 
 export abstract class AbstractEntity<T extends AbstractDto = AbstractDto> {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryGeneratedColumn('increment')
+    id: number;
+
+    @Column()
+    @Generated('uuid')
+    uuid: string;
 
     @CreateDateColumn({
         type: 'timestamp without time zone',
