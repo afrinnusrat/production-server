@@ -3,13 +3,13 @@ import { Injectable } from '@nestjs/common';
 
 import { ConfigService } from '../../shared/services/config.service';
 import { UserEntity } from '../user/user.entity';
-import { UserLoginDto } from './dto/UserLoginDto';
+import { UserLoginDto } from './dto/user-login.dto';
 import { UserNotFoundException } from '../../exceptions/user-not-found.exception';
 import { UtilsService } from '../../providers/utils.service';
 import { UserService } from '../user/user.service';
 import { UserDto } from '../user/dto/user.dto';
 import { ContextService } from '../../providers/context.service';
-import { TokenPayloadDto } from './dto/TokenPayloadDto';
+import { TokenPayloadDto } from './dto/token-payload.dto';
 
 @Injectable()
 export class AuthService {

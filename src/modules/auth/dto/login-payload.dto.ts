@@ -1,6 +1,6 @@
 'use strict';
 
-import { TokenPayloadDto } from './TokenPayloadDto';
+import { TokenPayloadDto } from './token-payload.dto';
 import { UserDto } from '../../user/dto/user.dto';
 import { ApiModelProperty } from '@nestjs/swagger';
 

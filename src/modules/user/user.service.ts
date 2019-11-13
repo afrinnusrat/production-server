@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FindConditions } from 'typeorm';
 import { UserEntity } from './user.entity';
-import { UserRegisterDto } from '../auth/dto/UserRegisterDto';
+import { UserRegisterDto } from '../auth/dto/user-register.dto';
 import { UserRepository } from './user.repository';
 import { IFile } from '../../interfaces/IFile';
 import { ValidatorService } from '../../shared/services/validator.service';
