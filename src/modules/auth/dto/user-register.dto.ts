@@ -7,9 +7,13 @@ import {
     IsNotEmpty,
     IsPhoneNumber,
     IsOptional,
+    IsEnum,
+    IsDecimal,
 } from 'class-validator';
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 import { Column } from 'typeorm';
+import { RoleType } from 'common/constants/role-type';
+import { ContractType } from 'common/constants/contract-type';
 
 export class UserRegisterDto {
     @IsString()
@@ -28,14 +32,48 @@ export class UserRegisterDto {
     @ApiModelProperty()
     readonly email: string;
 
+    @IsPhoneNumber('ZZ')
+    @IsNotEmpty()
+    @ApiModelProperty()
+    readonly phone: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty()
+    readonly street: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty()
+    readonly city: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty()
+    readonly state: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiModelProperty()
+    readonly zip: string;
+
+    @IsEnum(RoleType)
+    @IsOptional()
+    @ApiModelPropertyOptional({ enum: RoleType })
+    readonly role: RoleType;
+
     @IsString()
     @MinLength(6)
-    @ApiModelProperty({ minLength: 6 })
+    @IsOptional()
+    @ApiModelPropertyOptional({ minLength: 6 })
     readonly password: string;
 
-    @Column()
-    @IsPhoneNumber('ZZ')
-    @IsOptional()
+    @IsNotEmpty()
     @ApiModelProperty()
-    phone: string;
+    readonly salary: number;
+
+    @IsEnum(ContractType)
+    @IsNotEmpty()
+    @ApiModelProperty({ enum: ContractType })
+    readonly contractType: ContractType;
 }

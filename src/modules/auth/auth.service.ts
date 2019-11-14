@@ -13,6 +13,7 @@ import { TokenPayloadDto } from './dto/token-payload.dto';
 import { UserAuthService } from 'modules/user/user-auth.service';
 import { UserAuthEntity } from 'modules/user/user-auth.entity';
 import { UserAuthDto } from 'modules/user/dto/user-auth.dto';
+import { UserPasswordNotValidException } from 'exceptions/user-password-not-valid.exception';
 
 @Injectable()
 export class AuthService {
@@ -25,26 +26,34 @@ export class AuthService {
         public readonly userAuthService: UserAuthService,
     ) {}
 
-    async createToken(
-        user: UserAuthEntity | UserAuthDto,
-    ): Promise<TokenPayloadDto> {
+    async createToken(userAuth: UserAuthEntity): Promise<TokenPayloadDto> {
         return new TokenPayloadDto({
             expiresIn: this.configService.getNumber('JWT_EXPIRATION_TIME'),
-            accessToken: await this.jwtService.signAsync({ id: user.id }),
+            accessToken: await this.jwtService.signAsync({
+                uuid: userAuth.user.uuid,
+                role: userAuth.role,
+            }),
         });
     }
 
     async validateUser(userLoginDto: UserLoginDto): Promise<UserAuthEntity> {
-        const userAuth = await this.userAuthService.findOne({
+        const userAuth = await this.userAuthService.findUser({
             login: userLoginDto.login,
         });
+
         const isPasswordValid = await UtilsService.validateHash(
-            userLoginDto.password,
             userAuth && userAuth.password,
+            userLoginDto.password,
         );
-        if (!userAuth || !isPasswordValid) {
+
+        if (!userAuth) {
             throw new UserNotFoundException();
         }
+
+        if (userAuth.password && !isPasswordValid) {
+            throw new UserPasswordNotValidException();
+        }
+
         return userAuth;
     }
 

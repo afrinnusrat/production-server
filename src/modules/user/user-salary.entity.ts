@@ -1,4 +1,10 @@
-import { Entity, Column, OneToOne, JoinColumn } from 'typeorm';
+import {
+    Entity,
+    Column,
+    OneToOne,
+    JoinColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 import { UserSalaryDto } from './dto/user-salary.dto';
 import { ContractType } from '../../common/constants/contract-type';
 import { AbstractEntity } from '../../common/abstract.entity';
@@ -15,6 +21,9 @@ export class UserSalaryEntity extends AbstractEntity<UserSalaryDto> {
         default: ContractType.FullTime,
     })
     contractType: ContractType;
+
+    @UpdateDateColumn({ type: 'date' })
+    updatedAt: string;
 
     @OneToOne(type => UserEntity, user => user.userSalary, { nullable: false })
     @JoinColumn({ name: 'user_id' })

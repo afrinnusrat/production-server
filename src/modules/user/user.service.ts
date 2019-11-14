@@ -11,12 +11,17 @@ import { UsersPageOptionsDto } from './dto/users-page-options.dto';
 import { PageMetaDto } from '../../common/dto/page-meta.dto';
 import { UsersPageDto } from './dto/users-page.dto';
 import { UserAuthRepository } from './user-auth.repository';
+import { UserSalaryRepository } from './user-salary.repository';
+import { UserAuthEntity } from './user-auth.entity';
+import { UserSalaryEntity } from './user-salary.entity';
+import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class UserService {
     constructor(
         public readonly userRepository: UserRepository,
         public readonly userAuthRepository: UserAuthRepository,
+        public readonly userSalaryRepository: UserSalaryRepository,
         public readonly validatorService: ValidatorService,
         public readonly awsS3Service: AwsS3Service,
     ) {}
@@ -48,20 +53,24 @@ export class UserService {
 
     async createUser(
         userRegisterDto: UserRegisterDto,
-        file: IFile,
-    ): Promise<UserEntity> {
-        let avatar: string;
-        if (file && !this.validatorService.isImage(file.mimetype)) {
-            throw new FileNotImageException();
-        }
-
-        if (file) {
-            avatar = await this.awsS3Service.uploadImage(file);
-        }
-
+    ): Promise<[UserEntity, UserAuthEntity, UserSalaryEntity]> {
         const user = this.userRepository.create(userRegisterDto);
+        await this.userRepository.save(user);
 
-        return this.userRepository.save(user);
+        const userRegisterDtoWithUserEntity = { ...userRegisterDto, user };
+        const userAuth = this.userAuthRepository.create(
+            userRegisterDtoWithUserEntity,
+        );
+        const userSalary = this.userSalaryRepository.create(
+            userRegisterDtoWithUserEntity,
+        );
+
+        await Promise.all([
+            this.userAuthRepository.save(userAuth),
+            this.userSalaryRepository.save(userSalary),
+        ]);
+
+        return [user, userAuth, userSalary];
     }
 
     async getUsers(pageOptionsDto: UsersPageOptionsDto): Promise<UsersPageDto> {

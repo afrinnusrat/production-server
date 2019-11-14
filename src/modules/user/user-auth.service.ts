@@ -10,7 +10,11 @@ export class UserAuthService {
     /**
      * Find single userAuth
      */
-    findOne(findData: FindConditions<UserAuthEntity>): Promise<UserAuthEntity> {
-        return this.userAuthRepository.findOne(findData);
+    findUser(
+        findData: FindConditions<UserAuthEntity>,
+    ): Promise<UserAuthEntity> {
+        return this.userAuthRepository.findOne(findData, {
+            relations: ['user'],
+        });
     }
 }

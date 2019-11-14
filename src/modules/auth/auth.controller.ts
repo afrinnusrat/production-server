@@ -28,6 +28,7 @@ import { AuthService } from './auth.service';
 import { LoginPayloadDto } from './dto/login-payload.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
+import { RegisterPayloadDto } from './dto/register-payload.dto';
 
 @Controller('auth')
 @ApiUseTags('auth')
@@ -49,26 +50,31 @@ export class AuthController {
         const userAuthEntity = await this.authService.validateUser(
             userLoginDto,
         );
-
         const token = await this.authService.createToken(userAuthEntity);
-        return new LoginPayloadDto(userAuthEntity.toDto(), token);
+
+        return new LoginPayloadDto(token);
     }
 
     @Post('register')
     @HttpCode(HttpStatus.OK)
-    @ApiOkResponse({ type: UserDto, description: 'Successfully Registered' })
-    @ApiImplicitFile({ name: 'avatar', required: true })
-    @UseInterceptors(FileInterceptor('avatar'))
+    @ApiOkResponse({
+        type: RegisterPayloadDto,
+        description: 'Successfully Registered',
+    })
     async userRegister(
         @Body() userRegisterDto: UserRegisterDto,
-        @UploadedFile() file: IFile,
-    ): Promise<UserDto> {
-        const createdUser = await this.userService.createUser(
-            userRegisterDto,
-            file,
-        );
+    ): Promise<RegisterPayloadDto> {
+        const [
+            createdUser,
+            createdUserAuth,
+            createdUserSalary,
+        ] = await this.userService.createUser(userRegisterDto);
 
-        return createdUser.toDto();
+        return new RegisterPayloadDto(
+            createdUser.toDto(),
+            createdUserAuth.toDto(),
+            createdUserSalary.toDto(),
+        );
     }
 
     @Get('me')
