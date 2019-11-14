@@ -10,11 +10,13 @@ import { AwsS3Service } from '../../shared/services/aws-s3.service';
 import { UsersPageOptionsDto } from './dto/users-page-options.dto';
 import { PageMetaDto } from '../../common/dto/page-meta.dto';
 import { UsersPageDto } from './dto/users-page.dto';
+import { UserAuthRepository } from './user-auth.repository';
 
 @Injectable()
 export class UserService {
     constructor(
         public readonly userRepository: UserRepository,
+        public readonly userAuthRepository: UserAuthRepository,
         public readonly validatorService: ValidatorService,
         public readonly awsS3Service: AwsS3Service,
     ) {}

@@ -5,6 +5,7 @@ import { RoleType } from '../../common/constants/role-type';
 import { UserDto } from './dto/user.dto';
 import { PasswordTransformer } from './password.transformer';
 import { UserAuthEntity } from './user-auth.entity';
+import { UserSalaryEntity } from './user-salary.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity extends AbstractEntity<UserDto> {
@@ -45,6 +46,11 @@ export class UserEntity extends AbstractEntity<UserDto> {
         nullable: false,
     })
     userAuth: UserAuthEntity;
+
+    @OneToOne(type => UserSalaryEntity, userSalary => userSalary.user, {
+        nullable: false,
+    })
+    userSalary: UserSalaryEntity;
 
     dtoClass = UserDto;
 }
