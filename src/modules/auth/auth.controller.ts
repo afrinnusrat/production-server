@@ -8,6 +8,7 @@ import {
     UseInterceptors,
     UseGuards,
     UploadedFile,
+    Patch,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
@@ -50,7 +51,11 @@ export class AuthController {
         const userAuthEntity = await this.authService.validateUser(
             userLoginDto,
         );
-        const token = await this.authService.createToken(userAuthEntity);
+
+        const [token] = await Promise.all([
+            await this.authService.createToken(userAuthEntity),
+            await this.userService.setLastLogin(userLoginDto),
+        ]);
 
         return new LoginPayloadDto(token);
     }
@@ -76,6 +81,16 @@ export class AuthController {
             createdUserSalary.toDto(),
         );
     }
+
+    @Patch('logout')
+    @HttpCode(HttpStatus.OK)
+    @UseGuards(AuthGuard)
+    @UseInterceptors(AuthUserInterceptor)
+    @ApiBearerAuth()
+    @ApiOkResponse({
+        description: 'Successfully logout',
+    })
+
 
     @Get('me')
     @HttpCode(HttpStatus.OK)

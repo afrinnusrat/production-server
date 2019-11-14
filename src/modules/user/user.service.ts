@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FindConditions } from 'typeorm';
+import { FindConditions, UpdateResult } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { UserRegisterDto } from '../auth/dto/user-register.dto';
 import { UserRepository } from './user.repository';
@@ -15,6 +15,8 @@ import { UserSalaryRepository } from './user-salary.repository';
 import { UserAuthEntity } from './user-auth.entity';
 import { UserSalaryEntity } from './user-salary.entity';
 import { UserDto } from './dto/user.dto';
+import { UserLoginDto } from 'modules/auth/dto/user-login.dto';
+import { format } from 'date-fns';
 
 @Injectable()
 export class UserService {
@@ -85,5 +87,25 @@ export class UserService {
             itemCount: usersCount,
         });
         return new UsersPageDto(users.toDtos(), pageMetaDto);
+    }
+
+    async setLastLogin(userLoginDto: UserLoginDto): Promise<UpdateResult> {
+        const { login } = userLoginDto;
+        const userAuthEntity = await this.userAuthRepository.findOne({
+            where: { login },
+            relations: ['user'],
+        });
+        const {
+            user: { id },
+        } = userAuthEntity;
+        const today = new Date();
+
+        const queryBuilder = await this.userRepository
+            .createQueryBuilder('user')
+            .update(UserEntity)
+            .set({ lastLogin: format(today) })
+            .where('id = :id', { id });
+
+        return queryBuilder.execute();
     }
 }
