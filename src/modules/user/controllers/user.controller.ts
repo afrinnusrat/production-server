@@ -22,7 +22,6 @@ import { UsersPageOptionsDto } from '../dto/users-page-options.dto';
 import { UsersPageDto } from '../dto/users-page.dto';
 import { UserEntity } from '../models/user.entity';
 import { UserService } from '../services/user.service';
-import { UserAuthEntity } from '../models/user-auth.entity';
 
 @Controller('users')
 @ApiUseTags('users')

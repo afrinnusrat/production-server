@@ -1,9 +1,7 @@
 import { Entity, Column, CreateDateColumn, OneToOne } from 'typeorm';
 
 import { AbstractEntity } from '../../../common/models/abstract.entity';
-import { RoleType } from '../../../common/constants/role-type';
 import { UserDto } from '../dto/user.dto';
-import { PasswordTransformer } from '../utils/password.transformer';
 import { UserAuthEntity } from './user-auth.entity';
 import { UserSalaryEntity } from './user-salary.entity';
 

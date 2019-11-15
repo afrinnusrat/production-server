@@ -4,25 +4,15 @@ import {
     Body,
     HttpCode,
     HttpStatus,
-    Get,
     UseInterceptors,
     UseGuards,
-    UploadedFile,
     Patch,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import {
-    ApiOkResponse,
-    ApiUseTags,
-    ApiBearerAuth,
-    ApiImplicitFile,
-} from '@nestjs/swagger';
+import { ApiOkResponse, ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 
 import { AuthUser } from '../../../decorators/auth-user.decorator';
 import { AuthGuard } from '../../../guards/auth.guard';
 import { AuthUserInterceptor } from '../../../interceptors/auth-user-interceptor.service';
-import { IFile } from '../../../interfaces/file.interface';
-import { UserDto } from '../../user/dto/user.dto';
 import { UserEntity } from '../../user/models/user.entity';
 import { UserService } from '../../user/services/user.service';
 import { AuthService } from '../services/auth.service';

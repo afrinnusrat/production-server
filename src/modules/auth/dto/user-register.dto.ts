@@ -8,10 +8,8 @@ import {
     IsPhoneNumber,
     IsOptional,
     IsEnum,
-    IsDecimal,
 } from 'class-validator';
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
-import { Column } from 'typeorm';
 import { RoleType } from 'common/constants/role-type';
 import { ContractType } from 'common/constants/contract-type';
 

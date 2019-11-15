@@ -62,13 +62,9 @@ export class UserService {
         const user = this.userRepository.create(userRegisterDto);
         await this.userRepository.save(user);
 
-        const userRegisterDtoWithUserEntity = { ...userRegisterDto, user };
-        const userAuth = this.userAuthRepository.create(
-            userRegisterDtoWithUserEntity,
-        );
-        const userSalary = this.userSalaryRepository.create(
-            userRegisterDtoWithUserEntity,
-        );
+        const createdUser = { ...userRegisterDto, user };
+        const userAuth = this.userAuthRepository.create(createdUser);
+        const userSalary = this.userSalaryRepository.create(createdUser);
 
         await Promise.all([
             this.userAuthRepository.save(userAuth),
