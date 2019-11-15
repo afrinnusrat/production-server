@@ -18,7 +18,7 @@ import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './filters/bad-request.filter';
 import { QueryFailedFilter } from './filters/query-failed.filter';
 import { ConfigService } from './shared/services/config.service';
-import { SharedModule } from './shared/shared.module';
+import { SharedModule } from './shared/modules/shared.module';
 import { setupSwagger } from './viveo-swagger';
 
 async function bootstrap() {
@@ -39,6 +39,7 @@ async function bootstrap() {
     );
     app.use(compression());
     app.use(morgan('combined'));
+    app.setGlobalPrefix('api');
 
     const reflector = app.get(Reflector);
 

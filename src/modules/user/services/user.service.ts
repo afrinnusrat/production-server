@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { FindConditions, UpdateResult } from 'typeorm';
-import { UserEntity } from './user.entity';
-import { UserRegisterDto } from '../auth/dto/user-register.dto';
-import { UserRepository } from './user.repository';
-import { IFile } from '../../interfaces/file.interface';
-import { ValidatorService } from '../../shared/services/validator.service';
-import { FileNotImageException } from '../../exceptions/file-not-image.exception';
-import { AwsS3Service } from '../../shared/services/aws-s3.service';
-import { UsersPageOptionsDto } from './dto/users-page-options.dto';
-import { PageMetaDto } from '../../common/dto/page-meta.dto';
-import { UsersPageDto } from './dto/users-page.dto';
-import { UserAuthRepository } from './user-auth.repository';
-import { UserSalaryRepository } from './user-salary.repository';
-import { UserAuthEntity } from './user-auth.entity';
-import { UserSalaryEntity } from './user-salary.entity';
-import { UserDto } from './dto/user.dto';
+import { UserEntity } from '../models/user.entity';
+import { UserRegisterDto } from '../../auth/dto/user-register.dto';
+import { UserRepository } from '../repositories/user.repository';
+import { IFile } from '../../../interfaces/file.interface';
+import { ValidatorService } from '../../../shared/services/validator.service';
+import { FileNotImageException } from '../../../exceptions/file-not-image.exception';
+import { AwsS3Service } from '../../../shared/services/aws-s3.service';
+import { UsersPageOptionsDto } from '../dto/users-page-options.dto';
+import { PageMetaDto } from '../../../common/dto/page-meta.dto';
+import { UsersPageDto } from '../dto/users-page.dto';
+import { UserAuthRepository } from '../repositories/user-auth.repository';
+import { UserSalaryRepository } from '../repositories/user-salary.repository';
+import { UserAuthEntity } from '../models/user-auth.entity';
+import { UserSalaryEntity } from '../models/user-salary.entity';
+import { UserDto } from '../dto/user.dto';
 import { UserLoginDto } from 'modules/auth/dto/user-login.dto';
 import { format } from 'date-fns';
 
@@ -32,8 +32,11 @@ export class UserService {
      * Find single user
      */
     findOne(findData: FindConditions<UserEntity>): Promise<UserEntity> {
-        return this.userRepository.findOne(findData);
+        return this.userRepository.findOne(findData, {
+            relations: ['userAuth', 'userSalary'],
+        });
     }
+
     async findByUsernameOrEmail(
         options: Partial<{ username: string; email: string }>,
     ): Promise<UserEntity | undefined> {
@@ -89,7 +92,7 @@ export class UserService {
         return new UsersPageDto(users.toDtos(), pageMetaDto);
     }
 
-    async setLastLogin(userLoginDto: UserLoginDto): Promise<UpdateResult> {
+    async setLastLoginDate(userLoginDto: UserLoginDto): Promise<UpdateResult> {
         const { login } = userLoginDto;
         const userAuthEntity = await this.userAuthRepository.findOne({
             where: { login },
@@ -104,6 +107,19 @@ export class UserService {
             .createQueryBuilder('user')
             .update(UserEntity)
             .set({ lastLogin: format(today) })
+            .where('id = :id', { id });
+
+        return queryBuilder.execute();
+    }
+
+    async setLastLogoutDate(user: UserEntity): Promise<UpdateResult> {
+        const { id } = user;
+        const today = new Date();
+
+        const queryBuilder = await this.userRepository
+            .createQueryBuilder('user')
+            .update(UserEntity)
+            .set({ lastLogout: format(today) })
             .where('id = :id', { id });
 
         return queryBuilder.execute();

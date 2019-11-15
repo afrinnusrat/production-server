@@ -18,18 +18,18 @@ import {
     ApiImplicitFile,
 } from '@nestjs/swagger';
 
-import { AuthUser } from '../../decorators/auth-user.decorator';
-import { AuthGuard } from '../../guards/auth.guard';
-import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.service';
-import { IFile } from '../../interfaces/file.interface';
-import { UserDto } from '../user/dto/user.dto';
-import { UserEntity } from '../user/user.entity';
-import { UserService } from '../user/user.service';
-import { AuthService } from './auth.service';
-import { LoginPayloadDto } from './dto/login-payload.dto';
-import { UserLoginDto } from './dto/user-login.dto';
-import { UserRegisterDto } from './dto/user-register.dto';
-import { RegisterPayloadDto } from './dto/register-payload.dto';
+import { AuthUser } from '../../../decorators/auth-user.decorator';
+import { AuthGuard } from '../../../guards/auth.guard';
+import { AuthUserInterceptor } from '../../../interceptors/auth-user-interceptor.service';
+import { IFile } from '../../../interfaces/file.interface';
+import { UserDto } from '../../user/dto/user.dto';
+import { UserEntity } from '../../user/models/user.entity';
+import { UserService } from '../../user/services/user.service';
+import { AuthService } from '../services/auth.service';
+import { LoginPayloadDto } from '../dto/login-payload.dto';
+import { UserLoginDto } from '../dto/user-login.dto';
+import { UserRegisterDto } from '../dto/user-register.dto';
+import { RegisterPayloadDto } from '../dto/register-payload.dto';
 
 @Controller('auth')
 @ApiUseTags('auth')
@@ -51,10 +51,9 @@ export class AuthController {
         const userAuthEntity = await this.authService.validateUser(
             userLoginDto,
         );
-
         const [token] = await Promise.all([
             await this.authService.createToken(userAuthEntity),
-            await this.userService.setLastLogin(userLoginDto),
+            await this.userService.setLastLoginDate(userLoginDto),
         ]);
 
         return new LoginPayloadDto(token);
@@ -90,15 +89,7 @@ export class AuthController {
     @ApiOkResponse({
         description: 'Successfully logout',
     })
-
-
-    @Get('me')
-    @HttpCode(HttpStatus.OK)
-    @UseGuards(AuthGuard)
-    @UseInterceptors(AuthUserInterceptor)
-    @ApiBearerAuth()
-    @ApiOkResponse({ type: UserDto, description: 'current user info' })
-    getCurrentUser(@AuthUser() user: UserEntity) {
-        return user.toDto();
+    async userLogout(@AuthUser() user: UserEntity): Promise<void> {
+        await this.userService.setLastLogoutDate(user);
     }
 }

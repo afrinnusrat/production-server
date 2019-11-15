@@ -1,6 +1,6 @@
 'use strict';
 
-import { AbstractEntity } from '../abstract.entity';
+import { AbstractEntity } from '../models/abstract.entity';
 
 export class AbstractDto {
     id: number;

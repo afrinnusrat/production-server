@@ -1,7 +1,7 @@
 import 'source-map-support/register';
 import * as _ from 'lodash';
 
-import { AbstractEntity } from './common/abstract.entity';
+import { AbstractEntity } from './common/models/abstract.entity';
 import { AbstractDto } from './common/dto/abstract.dto';
 
 declare global {

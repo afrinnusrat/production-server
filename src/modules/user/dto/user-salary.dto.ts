@@ -2,10 +2,10 @@
 
 import { ApiModelProperty } from '@nestjs/swagger';
 
-import { UserEntity } from '../user.entity';
+import { UserEntity } from '../models/user.entity';
 import { AbstractDto } from '../../../common/dto/abstract.dto';
 import { ContractType } from '../../../common/constants/contract-type';
-import { UserSalaryEntity } from '../user-salary.entity';
+import { UserSalaryEntity } from '../models/user-salary.entity';
 import { UserDto } from './user.dto';
 
 export class UserSalaryDto extends AbstractDto {

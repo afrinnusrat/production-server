@@ -5,9 +5,9 @@ import {
     JoinColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { UserSalaryDto } from './dto/user-salary.dto';
-import { ContractType } from '../../common/constants/contract-type';
-import { AbstractEntity } from '../../common/abstract.entity';
+import { UserSalaryDto } from '../dto/user-salary.dto';
+import { ContractType } from '../../../common/constants/contract-type';
+import { AbstractEntity } from '../../../common/models/abstract.entity';
 import { UserEntity } from './user.entity';
 
 @Entity({ name: 'users_salary' })

@@ -4,9 +4,9 @@ import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 
 import { RoleType } from '../../../common/constants/role-type';
 import { AbstractDto } from '../../../common/dto/abstract.dto';
-import { UserAuthEntity } from '../user-auth.entity';
+import { UserAuthEntity } from '../models/user-auth.entity';
 import { UserDto } from './user.dto';
-import { UserEntity } from '../user.entity';
+import { UserEntity } from '../models/user.entity';
 
 export class UserAuthDto extends AbstractDto {
     @ApiModelProperty({ enum: RoleType })

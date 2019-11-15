@@ -6,16 +6,16 @@ import {
     CallHandler,
 } from '@nestjs/common';
 
-import { UserAuthEntity } from '../modules/user/user-auth.entity';
-import { AuthService } from '../modules/auth/auth.service';
+import { UserAuthEntity } from '../modules/user/models/user-auth.entity';
+import { AuthService } from '../modules/auth/services/auth.service';
 
 @Injectable()
 export class AuthUserInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         const request = context.switchToHttp().getRequest();
 
-        const userAuth = <UserAuthEntity>request.userAuth;
-        AuthService.setAuthUser(userAuth);
+        const user = <UserAuthEntity>request.user;
+        AuthService.setAuthUser(user);
 
         return next.handle();
     }

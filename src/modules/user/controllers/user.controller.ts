@@ -12,17 +12,17 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 
-import { RoleType } from '../../common/constants/role-type';
-import { AuthUser } from '../../decorators/auth-user.decorator';
-import { Roles } from '../../decorators/roles.decorator';
-import { AuthGuard } from '../../guards/auth.guard';
-import { RolesGuard } from '../../guards/roles.guard';
-import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.service';
-import { UsersPageOptionsDto } from './dto/users-page-options.dto';
-import { UsersPageDto } from './dto/users-page.dto';
-import { UserEntity } from './user.entity';
-import { UserService } from './user.service';
-import { UserAuthEntity } from './user-auth.entity';
+import { RoleType } from '../../../common/constants/role-type';
+import { AuthUser } from '../../../decorators/auth-user.decorator';
+import { Roles } from '../../../decorators/roles.decorator';
+import { AuthGuard } from '../../../guards/auth.guard';
+import { RolesGuard } from '../../../guards/roles.guard';
+import { AuthUserInterceptor } from '../../../interceptors/auth-user-interceptor.service';
+import { UsersPageOptionsDto } from '../dto/users-page-options.dto';
+import { UsersPageDto } from '../dto/users-page.dto';
+import { UserEntity } from '../models/user.entity';
+import { UserService } from '../services/user.service';
+import { UserAuthEntity } from '../models/user-auth.entity';
 
 @Controller('users')
 @ApiUseTags('users')
