@@ -38,12 +38,11 @@ export class AuthController {
     async userLogin(
         @Body() userLoginDto: UserLoginDto,
     ): Promise<LoginPayloadDto> {
-        const userAuthEntity = await this.authService.validateUser(
-            userLoginDto,
-        );
+        const userEntity = await this.authService.validateUser(userLoginDto);
+
         const [token] = await Promise.all([
-            await this.authService.createToken(userAuthEntity),
-            await this.userService.setLastLoginDate(userLoginDto),
+            await this.authService.createToken(userEntity),
+            await this.userService.setLastLoginDate(userEntity),
         ]);
 
         return new LoginPayloadDto(token);

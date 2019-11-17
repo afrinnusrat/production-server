@@ -11,6 +11,7 @@ import { TokenPayloadDto } from '../dto/token-payload.dto';
 import { UserAuthService } from 'modules/user/services/user-auth.service';
 import { UserAuthEntity } from 'modules/user/models/user-auth.entity';
 import { UserPasswordNotValidException } from 'exceptions/user-password-not-valid.exception';
+import { UserEntity } from 'modules/user/models/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -23,19 +24,16 @@ export class AuthService {
         public readonly userAuthService: UserAuthService,
     ) {}
 
-    async createToken(userAuth: UserAuthEntity): Promise<TokenPayloadDto> {
-        const {
-            role,
-            user: { uuid },
-        } = userAuth;
+    async createToken(user: UserEntity): Promise<TokenPayloadDto> {
+        const { uuid } = user;
 
         return new TokenPayloadDto({
             expiresIn: this.configService.getNumber('JWT_EXPIRATION_TIME'),
-            accessToken: await this.jwtService.signAsync({ uuid, role }),
+            accessToken: await this.jwtService.signAsync({ uuid }),
         });
     }
 
-    async validateUser(userLoginDto: UserLoginDto): Promise<UserAuthEntity> {
+    async validateUser(userLoginDto: UserLoginDto): Promise<UserEntity> {
         const { login, password } = userLoginDto;
         const userAuth = await this.userAuthService.findUser({ login });
 
@@ -52,7 +50,7 @@ export class AuthService {
             throw new UserPasswordNotValidException();
         }
 
-        return userAuth;
+        return userAuth.user;
     }
 
     static setAuthUser(userAuth: UserAuthEntity) {

@@ -1,14 +1,8 @@
 'use strict';
 
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
-
-import { RoleType } from '../../../common/constants/role-type';
 import { AbstractDto } from '../../../common/dto/abstract.dto';
 import { UserEntity } from '../models/user.entity';
-import { UserAuthEntity } from '../models/user-auth.entity';
-import { UserAuthDto } from './user-auth.dto';
-import { UserSalaryDto } from './user-salary.dto';
-import { UserSalaryEntity } from '../models/user-salary.entity';
 
 export class UserDto extends AbstractDto {
     @ApiModelProperty()
