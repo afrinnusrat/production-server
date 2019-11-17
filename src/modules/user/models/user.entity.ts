@@ -1,9 +1,10 @@
-import { Entity, Column, CreateDateColumn, OneToOne } from 'typeorm';
+import { Entity, Column, CreateDateColumn, OneToOne, OneToMany } from 'typeorm';
 
 import { AbstractEntity } from '../../../common/models/abstract.entity';
 import { UserDto } from '../dto/user.dto';
 import { UserAuthEntity } from './user-auth.entity';
 import { UserSalaryEntity } from './user-salary.entity';
+import { ProductionMachineHistoryEntity } from '../../production/models/production-machine-history.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity extends AbstractEntity<UserDto> {
@@ -49,6 +50,12 @@ export class UserEntity extends AbstractEntity<UserDto> {
         nullable: false,
     })
     userSalary: UserSalaryEntity;
+
+    @OneToMany(
+        type => ProductionMachineHistoryEntity,
+        productionMachineHistory => productionMachineHistory.user,
+    )
+    productionMachineHistory: ProductionMachineHistoryEntity[];
 
     dtoClass = UserDto;
 }
