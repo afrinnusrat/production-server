@@ -5,6 +5,7 @@ import { UserDto } from '../dto/user.dto';
 import { UserAuthEntity } from './user-auth.entity';
 import { UserSalaryEntity } from './user-salary.entity';
 import { ProductionMachineHistoryEntity } from '../../production/models/production-machine-history.entity';
+import { ProductionTaskEntity } from '../../production/models/production-task.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity extends AbstractEntity<UserDto> {
@@ -56,6 +57,12 @@ export class UserEntity extends AbstractEntity<UserDto> {
         productionMachineHistory => productionMachineHistory.user,
     )
     productionMachineHistory: ProductionMachineHistoryEntity[];
+
+    @OneToMany(
+        type => ProductionTaskEntity,
+        productionTask => [productionTask.user, productionTask.master],
+    )
+    productionTask: ProductionTaskEntity[];
 
     dtoClass = UserDto;
 }

@@ -6,10 +6,10 @@ import { ProductionMachineHistoryEntity } from '../models/production-machine-his
 
 export class ProductionMachineHistoryDto extends AbstractDto {
     @ApiModelProperty()
-    lastUsedAt: string;
+    usedAt: string;
 
     constructor(productionMachineHistory: ProductionMachineHistoryEntity) {
         super(productionMachineHistory);
-        this.lastUsedAt = productionMachineHistory.lastUsedAt;
+        this.usedAt = productionMachineHistory.usedAt;
     }
 }

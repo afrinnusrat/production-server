@@ -1,7 +1,8 @@
-import { Entity, Column, CreateDateColumn, OneToOne } from 'typeorm';
+import { Entity, Column, CreateDateColumn, OneToOne, OneToMany } from 'typeorm';
 
 import { AbstractEntity } from '../../../common/models/abstract.entity';
 import { CustomerDto } from '../dto/customer.dto';
+import { ProductionTaskEntity } from '../../production/models/production-task.entity';
 
 @Entity({ name: 'customers' })
 export class CustomerEntity extends AbstractEntity<CustomerDto> {
@@ -31,6 +32,12 @@ export class CustomerEntity extends AbstractEntity<CustomerDto> {
 
     @CreateDateColumn({ type: 'date' })
     createdAt: string;
+
+    @OneToMany(
+        type => ProductionTaskEntity,
+        productionTask => productionTask.customer,
+    )
+    productionTask: ProductionTaskEntity[];
 
     dtoClass = CustomerDto;
 }
