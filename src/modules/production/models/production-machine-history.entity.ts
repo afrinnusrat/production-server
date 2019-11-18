@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { ContractType } from '../../../common/constants/contract-type';
 import { AbstractEntity } from '../../../common/models/abstract.entity';
-import { ProductionMachineDto } from '../dto/production-machine.dto';
+import { ProductionMachineHistoryDto } from '../dto/production-machine-history.dto';
 import { ApiModelProperty } from '@nestjs/swagger';
 import { UserEntity } from '../../../modules/user/models/user.entity';
 import { ProductionMachineEntity } from './production-machine.entity';
@@ -18,8 +18,8 @@ import { ProductionMachineEntity } from './production-machine.entity';
 export class ProductionMachineHistoryEntity extends AbstractEntity<
     ProductionMachineHistoryDto
 > {
-    @UpdateDateColumn('timestamp with time zone')
-    lastUsed: string;
+    @UpdateDateColumn()
+    lastUsedAt: string;
 
     @ManyToOne(
         type => ProductionMachineEntity,
