@@ -22,7 +22,7 @@ import { UserRegisterDto } from '../dto/user-register.dto';
 import { RegisterPayloadDto } from '../dto/register-payload.dto';
 
 @Controller('auth')
-@ApiUseTags('auth')
+@ApiUseTags('Auth')
 export class AuthController {
     constructor(
         public readonly userService: UserService,

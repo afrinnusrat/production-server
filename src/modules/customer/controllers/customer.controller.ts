@@ -8,6 +8,9 @@ import {
     UseInterceptors,
     Post,
     Body,
+    Get,
+    ValidationPipe,
+    Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiUseTags, ApiOkResponse } from '@nestjs/swagger';
 
@@ -19,9 +22,11 @@ import { AuthUserInterceptor } from '../../../interceptors/auth-user-interceptor
 import { CustomerService } from '../services/customer.service';
 import { CustomerDto } from '../dto/customer.dto';
 import { CustomerRegisterDto } from '../dto/customer-register.dto';
+import { CustomersPageDto } from '../dto/customers-page.dto';
+import { CustomersPageOptionsDto } from '../dto/customers-page-options.dto';
 
 @Controller('customers')
-@ApiUseTags('customers')
+@ApiUseTags('Customers')
 @UseGuards(AuthGuard, RolesGuard)
 @UseInterceptors(AuthUserInterceptor)
 @Roles(RoleType.Admin)
@@ -30,6 +35,7 @@ export class CustomerController {
     constructor(private _customerService: CustomerService) {}
 
     @Post('/')
+    @Roles(RoleType.Master, RoleType.Admin)
     @HttpCode(HttpStatus.OK)
     @ApiOkResponse({
         type: CustomerDto,
@@ -43,5 +49,19 @@ export class CustomerController {
         );
 
         return createdCustomer.toDto();
+    }
+
+    @Get('/')
+    @Roles(RoleType.Master, RoleType.Admin)
+    @HttpCode(HttpStatus.OK)
+    @ApiOkResponse({
+        description: 'Get customers list',
+        type: CustomersPageDto,
+    })
+    getUsers(
+        @Query(new ValidationPipe({ transform: true }))
+        pageOptionsDto: CustomersPageOptionsDto,
+    ): Promise<CustomersPageDto> {
+        return this._customerService.getCustomers(pageOptionsDto);
     }
 }

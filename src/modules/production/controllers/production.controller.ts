@@ -13,36 +13,34 @@ import {
 import { ApiBearerAuth, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 
 import { RoleType } from '../../../common/constants/role-type';
-import { AuthUser } from '../../../decorators/auth-user.decorator';
 import { Roles } from '../../../decorators/roles.decorator';
 import { AuthGuard } from '../../../guards/auth.guard';
 import { RolesGuard } from '../../../guards/roles.guard';
 import { AuthUserInterceptor } from '../../../interceptors/auth-user-interceptor.service';
-import { UsersPageOptionsDto } from '../dto/users-page-options.dto';
-import { UsersPageDto } from '../dto/users-page.dto';
-import { UserEntity } from '../models/user.entity';
-import { UserService } from '../services/user.service';
+import { ProductionMachinesPageOptionsDto } from '../dto/production-machines-page-options.dto';
+import { ProductionMachinesPageDto } from '../dto/production-machines-page.dto';
+import { ProductionService } from '../services/production.service';
 
-@Controller('users')
-@ApiUseTags('Users')
+@Controller('production')
+@ApiUseTags('Production')
 @UseGuards(AuthGuard, RolesGuard)
 @UseInterceptors(AuthUserInterceptor)
 @ApiBearerAuth()
-export class UserController {
-    constructor(private _userService: UserService) {}
+export class ProductionController {
+    constructor(private _productionService: ProductionService) {}
 
-    @Get('/')
-    @Roles(RoleType.Admin)
+    @Get('/machines')
+    @Roles(RoleType.Master, RoleType.Admin)
     @HttpCode(HttpStatus.OK)
     @ApiResponse({
         status: HttpStatus.OK,
-        description: 'Get users list',
-        type: UsersPageDto,
+        description: 'Get machines list',
+        type: ProductionMachinesPageDto,
     })
     getUsers(
         @Query(new ValidationPipe({ transform: true }))
-        pageOptionsDto: UsersPageOptionsDto,
-    ): Promise<UsersPageDto> {
-        return this._userService.getUsers(pageOptionsDto);
+        pageOptionsDto: ProductionMachinesPageOptionsDto,
+    ): Promise<ProductionMachinesPageDto> {
+        return this._productionService.getMachines(pageOptionsDto);
     }
 }
