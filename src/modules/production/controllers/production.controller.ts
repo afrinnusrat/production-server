@@ -9,8 +9,15 @@ import {
     UseGuards,
     UseInterceptors,
     ValidationPipe,
+    Post,
+    Body,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiResponse, ApiUseTags } from '@nestjs/swagger';
+import {
+    ApiBearerAuth,
+    ApiResponse,
+    ApiUseTags,
+    ApiOkResponse,
+} from '@nestjs/swagger';
 
 import { RoleType } from '../../../common/constants/role-type';
 import { Roles } from '../../../decorators/roles.decorator';
@@ -20,6 +27,10 @@ import { AuthUserInterceptor } from '../../../interceptors/auth-user-interceptor
 import { ProductionMachinesPageOptionsDto } from '../dto/production-machines-page-options.dto';
 import { ProductionMachinesPageDto } from '../dto/production-machines-page.dto';
 import { ProductionService } from '../services/production.service';
+import { ProductionTasksPageDto } from '../dto/production-tasks-page.dto';
+import { ProductionTasksPageOptionsDto } from '../dto/production-tasks-page-options.dto';
+import { ProductionMachinesHistoryPageDto } from '../dto/production-machines-history-page.dto';
+import { ProductionMachinesHistoryPageOptionsDto } from '../dto/production-machines-history-page-options.dto';
 
 @Controller('production')
 @ApiUseTags('Production')
@@ -32,15 +43,56 @@ export class ProductionController {
     @Get('/machines')
     @Roles(RoleType.Master, RoleType.Admin)
     @HttpCode(HttpStatus.OK)
-    @ApiResponse({
-        status: HttpStatus.OK,
+    @ApiOkResponse({
         description: 'Get machines list',
         type: ProductionMachinesPageDto,
     })
-    getUsers(
+    productionMachines(
         @Query(new ValidationPipe({ transform: true }))
         pageOptionsDto: ProductionMachinesPageOptionsDto,
     ): Promise<ProductionMachinesPageDto> {
         return this._productionService.getMachines(pageOptionsDto);
     }
+
+    @Get('/machines/history')
+    @Roles(RoleType.Master, RoleType.Admin)
+    @HttpCode(HttpStatus.OK)
+    @ApiOkResponse({
+        description: 'Get machines history list',
+        type: ProductionMachinesHistoryPageDto,
+    })
+    productionMachinesHistory(
+        @Query(new ValidationPipe({ transform: true }))
+        pageOptionsDto: ProductionMachinesHistoryPageOptionsDto,
+    ): Promise<ProductionMachinesHistoryPageDto> {
+        return this._productionService.getMachinesHistory(pageOptionsDto);
+    }
+
+    @Get('/tasks')
+    @Roles(RoleType.Master, RoleType.Admin)
+    @HttpCode(HttpStatus.OK)
+    @ApiOkResponse({
+        description: 'Get tasks list',
+        type: ProductionTasksPageDto,
+    })
+    productionTasks(
+        @Query(new ValidationPipe({ transform: true }))
+        pageOptionsDto: ProductionTasksPageOptionsDto,
+    ): Promise<ProductionTasksPageDto> {
+        return this._productionService.getTasks(pageOptionsDto);
+    }
+
+    //todo: make create task controller
+    // @Post('/tasks')
+    // @Roles(RoleType.Master, RoleType.Admin)
+    // @HttpCode(HttpStatus.OK)
+    // @ApiOkResponse({
+    //     // type: CreateProductionTaskPayloadDto,
+    //     description: 'Successfully created',
+    // })
+    // productionTaskCreate(
+    //     @Body() productionTaskDto: NewProductionTaskDto,
+    // ): Promise<CreateTaskPayloadDto> {
+    //     return this._productionService.createTask(productionTaskCreateDto);
+    // }
 }
