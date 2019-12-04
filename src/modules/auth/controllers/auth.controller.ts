@@ -8,7 +8,7 @@ import {
     UseGuards,
     Patch,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiOkResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 import { AuthUser } from '../../../decorators/auth-user.decorator';
 import { AuthGuard } from '../../../guards/auth.guard';
@@ -22,7 +22,7 @@ import { UserRegisterDto } from '../dto/user-register.dto';
 import { RegisterPayloadDto } from '../dto/register-payload.dto';
 
 @Controller('auth')
-@ApiUseTags('Auth')
+@ApiTags('Auth')
 export class AuthController {
     constructor(
         public readonly userService: UserService,

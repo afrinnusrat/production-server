@@ -4,8 +4,6 @@ import { INestApplication } from '@nestjs/common';
 export function setupSwagger(app: INestApplication) {
     const options = new DocumentBuilder()
         .setTitle('Production')
-        .setContactEmail('contact@pietrzakadrian.com')
-        .setBasePath('api')
         .setVersion('0.0.1')
         .addBearerAuth()
         .build();

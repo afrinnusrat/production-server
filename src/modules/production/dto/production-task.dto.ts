@@ -1,22 +1,22 @@
 'use strict';
 
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { AbstractDto } from '../../../common/dto/abstract.dto';
 import { ContractType } from '../../../common/constants/contract-type';
 import { ProductionMachineEntity } from '../models/production-machine.entity';
 import { ProductionTaskEntity } from '../models/production-task.entity';
 
 export class ProductionTaskDto extends AbstractDto {
-    @ApiModelProperty()
+    @ApiProperty()
     name: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     quantity: number;
 
-    @ApiModelProperty({ format: 'time' })
+    @ApiProperty({ format: 'time' })
     duration: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     createdAt: string;
 
     constructor(productionTask: ProductionTaskEntity) {

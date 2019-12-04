@@ -15,7 +15,7 @@ import {
 import {
     ApiBearerAuth,
     ApiResponse,
-    ApiUseTags,
+    ApiTags,
     ApiOkResponse,
 } from '@nestjs/swagger';
 
@@ -33,7 +33,7 @@ import { ProductionMachinesHistoryPageDto } from '../dto/production-machines-his
 import { ProductionMachinesHistoryPageOptionsDto } from '../dto/production-machines-history-page-options.dto';
 
 @Controller('production')
-@ApiUseTags('Production')
+@ApiTags('Production')
 @UseGuards(AuthGuard, RolesGuard)
 @UseInterceptors(AuthUserInterceptor)
 @ApiBearerAuth()

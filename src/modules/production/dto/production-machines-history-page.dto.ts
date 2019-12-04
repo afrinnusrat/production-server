@@ -1,15 +1,15 @@
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { PageMetaDto } from '../../../common/dto/page-meta.dto';
 import { ProductionMachineHistoryDto } from './production-machine-history.dto';
 
 export class ProductionMachinesHistoryPageDto {
-    @ApiModelProperty({
+    @ApiProperty({
         type: ProductionMachineHistoryDto,
         isArray: true,
     })
     readonly data: ProductionMachineHistoryDto[];
 
-    @ApiModelProperty()
+    @ApiProperty()
     readonly meta: PageMetaDto;
 
     constructor(data: ProductionMachineHistoryDto[], meta: PageMetaDto) {

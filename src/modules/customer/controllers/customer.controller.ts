@@ -12,7 +12,7 @@ import {
     ValidationPipe,
     Query,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiUseTags, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags, ApiOkResponse } from '@nestjs/swagger';
 
 import { RoleType } from '../../../common/constants/role-type';
 import { Roles } from '../../../decorators/roles.decorator';
@@ -26,7 +26,7 @@ import { CustomersPageDto } from '../dto/customers-page.dto';
 import { CustomersPageOptionsDto } from '../dto/customers-page-options.dto';
 
 @Controller('customers')
-@ApiUseTags('Customers')
+@ApiTags('Customers')
 @UseGuards(AuthGuard, RolesGuard)
 @UseInterceptors(AuthUserInterceptor)
 @Roles(RoleType.Admin)

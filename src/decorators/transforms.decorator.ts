@@ -7,7 +7,7 @@ import { Transform } from 'class-transformer';
 /**
  * @description trim spaces from start and end, replace multiple spaces with one.
  * @example
- * @ApiModelProperty()
+ * @ApiProperty()
  * @IsString()
  * @Trim()
  * name: string;

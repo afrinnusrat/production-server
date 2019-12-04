@@ -1,6 +1,6 @@
 'use strict';
 
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 import { UserEntity } from '../models/user.entity';
 import { AbstractDto } from '../../../common/dto/abstract.dto';
@@ -9,13 +9,13 @@ import { UserSalaryEntity } from '../models/user-salary.entity';
 import { UserDto } from './user.dto';
 
 export class UserSalaryDto extends AbstractDto {
-    @ApiModelProperty()
+    @ApiProperty()
     salary: number;
 
-    @ApiModelProperty({ enum: ContractType })
+    @ApiProperty({ enum: ContractType })
     contractType: ContractType;
 
-    @ApiModelProperty({ format: 'date' })
+    @ApiProperty({ format: 'date' })
     updatedAt: string;
 
     constructor(userSalary: UserSalaryEntity) {

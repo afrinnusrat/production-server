@@ -1,47 +1,47 @@
 'use strict';
 
 import { IsString, IsEmail, IsNotEmpty, IsPhoneNumber } from 'class-validator';
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CustomerRegisterDto {
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly name: string;
 
     @IsString()
     @IsEmail()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly email: string;
 
     @IsPhoneNumber('ZZ')
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly phone: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly street: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly city: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly state: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly zip: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly tax: string;
 }

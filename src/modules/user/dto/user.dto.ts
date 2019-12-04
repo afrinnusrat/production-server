@@ -1,41 +1,41 @@
 'use strict';
 
-import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { AbstractDto } from '../../../common/dto/abstract.dto';
 import { UserEntity } from '../models/user.entity';
 
 export class UserDto extends AbstractDto {
-    @ApiModelProperty()
+    @ApiProperty()
     firstName: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     lastName: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     email: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     phone: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     street: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     city: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     state: string;
 
-    @ApiModelProperty()
+    @ApiProperty()
     zip: string;
 
-    @ApiModelProperty({ format: 'date' })
+    @ApiProperty({ format: 'date' })
     createdAt: string;
 
-    @ApiModelPropertyOptional({ format: 'date-time' })
+    @ApiPropertyOptional({ format: 'date-time' })
     lastLogin: string;
 
-    @ApiModelPropertyOptional({ format: 'date-time' })
+    @ApiPropertyOptional({ format: 'date-time' })
     lastLogout: string;
 
     constructor(user: UserEntity) {

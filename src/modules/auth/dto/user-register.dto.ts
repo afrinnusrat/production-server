@@ -9,69 +9,69 @@ import {
     IsOptional,
     IsEnum,
 } from 'class-validator';
-import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { RoleType } from 'common/constants/role-type';
 import { ContractType } from 'common/constants/contract-type';
 
 export class UserRegisterDto {
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly firstName: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly lastName: string;
 
     @IsString()
     @IsEmail()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly email: string;
 
     @IsPhoneNumber('ZZ')
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly phone: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly street: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly city: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly state: string;
 
     @IsString()
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly zip: string;
 
     @IsEnum(RoleType)
     @IsOptional()
-    @ApiModelPropertyOptional({ enum: RoleType })
+    @ApiPropertyOptional({ enum: RoleType })
     readonly role: RoleType;
 
     @IsString()
     @MinLength(6)
     @IsOptional()
-    @ApiModelPropertyOptional({ minLength: 6 })
+    @ApiPropertyOptional({ minLength: 6 })
     readonly password: string;
 
     @IsNotEmpty()
-    @ApiModelProperty()
+    @ApiProperty()
     readonly salary: number;
 
     @IsEnum(ContractType)
     @IsNotEmpty()
-    @ApiModelProperty({ enum: ContractType })
+    @ApiProperty({ enum: ContractType })
     readonly contractType: ContractType;
 }
