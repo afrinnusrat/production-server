@@ -2,11 +2,12 @@ import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from '../../auth/modules/auth.module';
 import { ProductionMachineRepository } from '../repositories/production-machine.repository';
-import { ProductionTaskEntity } from '../models/production-task.entity';
 import { ProductionTaskRepository } from '../repositories/production-task.repository';
 import { ProductionMachineHistoryRepository } from '../repositories/production-machine-history.repository';
-import { ProductionController } from '../controllers/production.controller';
-import { ProductionService } from '../services/production.service';
+import { ProductionMachineController } from '../controllers/production-machine.controller';
+import { ProductionMachineService } from '../services/production-machine.service';
+import { ProductionTaskService } from '../services/production-task.service';
+import { ProductionTaskController } from '../controllers/production-task.controller';
 
 @Module({
     imports: [
@@ -17,8 +18,8 @@ import { ProductionService } from '../services/production.service';
             ProductionMachineHistoryRepository,
         ]),
     ],
-    controllers: [ProductionController],
-    exports: [ProductionService],
-    providers: [ProductionService],
+    controllers: [ProductionMachineController, ProductionTaskController],
+    exports: [ProductionMachineService, ProductionTaskService],
+    providers: [ProductionMachineService, ProductionTaskService],
 })
 export class ProductionModule {}
