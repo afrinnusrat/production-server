@@ -13,14 +13,12 @@ import {
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { RoleType } from '../../../common/constants/role-type';
-import { AuthUser } from '../../../decorators/auth-user.decorator';
 import { Roles } from '../../../decorators/roles.decorator';
 import { AuthGuard } from '../../../guards/auth.guard';
 import { RolesGuard } from '../../../guards/roles.guard';
 import { AuthUserInterceptor } from '../../../interceptors/auth-user-interceptor.service';
 import { UsersPageOptionsDto } from '../dto/users-page-options.dto';
 import { UsersPageDto } from '../dto/users-page.dto';
-import { UserEntity } from '../models/user.entity';
 import { UserService } from '../services/user.service';
 
 @Controller('users')
@@ -42,7 +40,7 @@ export class UserController {
     getUsers(
         @Query(new ValidationPipe({ transform: true }))
         pageOptionsDto: UsersPageOptionsDto,
-    ): Promise<UsersPageDto> {
+    ): Promise<UsersPageDto | any> {
         return this._userService.getUsers(pageOptionsDto);
     }
 }

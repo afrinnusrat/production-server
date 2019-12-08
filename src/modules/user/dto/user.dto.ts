@@ -3,6 +3,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { AbstractDto } from '../../../common/dto/abstract.dto';
 import { UserEntity } from '../models/user.entity';
+import { UserAuthDto } from './user-auth.dto';
+import { UserSalaryDto } from './user-salary.dto';
 
 export class UserDto extends AbstractDto {
     @ApiProperty()
@@ -38,6 +40,12 @@ export class UserDto extends AbstractDto {
     @ApiPropertyOptional({ format: 'date-time' })
     lastLogout: string;
 
+    @ApiProperty({ type: UserAuthDto })
+    userAuth: UserAuthDto;
+
+    @ApiProperty({ type: UserSalaryDto })
+    userSalary: UserSalaryDto;
+
     constructor(user: UserEntity) {
         super(user);
         this.firstName = user.firstName;
@@ -51,5 +59,7 @@ export class UserDto extends AbstractDto {
         this.createdAt = user.createdAt;
         this.lastLogin = user.lastLogin;
         this.lastLogout = user.lastLogout;
+        this.userAuth = user.userAuth;
+        this.userSalary = user.userSalary;
     }
 }

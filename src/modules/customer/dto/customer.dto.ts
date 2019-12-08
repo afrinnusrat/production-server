@@ -30,7 +30,7 @@ export class CustomerDto extends AbstractDto {
     @ApiProperty()
     tax: string;
 
-    @ApiPropertyOptional({ type: 'date' })
+    @ApiProperty({ format: 'date' })
     createdAt: string;
 
     constructor(customer: CustomerEntity) {

@@ -56,13 +56,14 @@ export class UserService {
         return queryBuilder.getOne();
     }
 
-    async createUser(
-        userRegisterDto: UserRegisterDto,
-    ): Promise<[UserEntity, UserAuthEntity, UserSalaryEntity]> {
+    async createUser(userRegisterDto: UserRegisterDto): Promise<UserDto> {
         const user = this.userRepository.create(userRegisterDto);
         await this.userRepository.save(user);
 
-        const createdUser = { ...userRegisterDto, user };
+        const createdUser = {
+            ...userRegisterDto,
+            user,
+        };
         const userAuth = this.userAuthRepository.create(createdUser);
         const userSalary = this.userSalaryRepository.create(createdUser);
 
@@ -71,20 +72,28 @@ export class UserService {
             this.userSalaryRepository.save(userSalary),
         ]);
 
-        return [user, userAuth, userSalary];
+        user.userAuth = userAuth.toDto();
+        user.userSalary = userSalary.toDto();
+
+        return user.toDto();
     }
 
-    async getUsers(pageOptionsDto: UsersPageOptionsDto): Promise<UsersPageDto> {
+    async getUsers(
+        pageOptionsDto: UsersPageOptionsDto,
+    ): Promise<UsersPageDto | any> {
         const queryBuilder = this.userRepository.createQueryBuilder('user');
         const [users, usersCount] = await queryBuilder
             .skip(pageOptionsDto.skip)
             .take(pageOptionsDto.take)
             .getManyAndCount();
 
+        console.log(users);
+
         const pageMetaDto = new PageMetaDto({
             pageOptionsDto,
             itemCount: usersCount,
         });
+
         return new UsersPageDto(users.toDtos(), pageMetaDto);
     }
 

@@ -1,17 +1,6 @@
-import {
-    Entity,
-    Column,
-    OneToOne,
-    JoinColumn,
-    UpdateDateColumn,
-    OneToMany,
-    ManyToOne,
-    CreateDateColumn,
-} from 'typeorm';
-import { ContractType } from '../../../common/constants/contract-type';
+import { Entity, JoinColumn, ManyToOne, CreateDateColumn } from 'typeorm';
 import { AbstractEntity } from '../../../common/models/abstract.entity';
 import { ProductionMachineHistoryDto } from '../dto/production-machine-history.dto';
-import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from '../../../modules/user/models/user.entity';
 import { ProductionMachineEntity } from './production-machine.entity';
 import { ProductionTaskEntity } from './production-task.entity';
@@ -39,13 +28,9 @@ export class ProductionMachineHistoryEntity extends AbstractEntity<
     @JoinColumn({ name: 'machine_id' })
     productionMachine: ProductionMachineEntity;
 
-    @ManyToOne(
-        type => UserEntity,
-        user => user.productionMachineHistory,
-        {
-            nullable: false,
-        },
-    )
+    @ManyToOne(type => UserEntity, user => user.productionMachineHistory, {
+        nullable: false,
+    })
     @JoinColumn({ name: 'operator_id' })
     user: UserEntity;
 

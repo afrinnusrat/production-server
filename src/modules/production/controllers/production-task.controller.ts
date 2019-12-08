@@ -42,4 +42,15 @@ export class ProductionTaskController {
     ): Promise<ProductionTasksPageDto> {
         return this._productionTaskService.getTasks(pageOptionsDto);
     }
+
+    //TODO: create task controller
+    // @Get('/task')
+    // @Roles(RoleType.Worker)
+    // @ApiOkResponse({
+    //     description: 'Get production tasks list',
+    //     type: ProductionTasksPageDto,
+    // })
+    // productionTask() {
+
+    // }
 }

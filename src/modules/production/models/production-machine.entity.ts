@@ -1,13 +1,5 @@
-import {
-    Entity,
-    Column,
-    OneToOne,
-    JoinColumn,
-    UpdateDateColumn,
-    OneToMany,
-    ManyToOne,
-} from 'typeorm';
-import { ContractType } from '../../../common/constants/contract-type';
+import { Entity, Column, OneToMany } from 'typeorm';
+
 import { AbstractEntity } from '../../../common/models/abstract.entity';
 import { ProductionMachineDto } from '../dto/production-machine.dto';
 import { ProductionMachineHistoryEntity } from './production-machine-history.entity';

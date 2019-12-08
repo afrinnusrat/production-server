@@ -57,17 +57,9 @@ export class AuthController {
     async userRegister(
         @Body() userRegisterDto: UserRegisterDto,
     ): Promise<RegisterPayloadDto> {
-        const [
-            createdUser,
-            createdUserAuth,
-            createdUserSalary,
-        ] = await this.userService.createUser(userRegisterDto);
+        const createdUser = await this.userService.createUser(userRegisterDto);
 
-        return new RegisterPayloadDto(
-            createdUser.toDto(),
-            createdUserAuth.toDto(),
-            createdUserSalary.toDto(),
-        );
+        return new RegisterPayloadDto(createdUser);
     }
 
     @Patch('logout')
