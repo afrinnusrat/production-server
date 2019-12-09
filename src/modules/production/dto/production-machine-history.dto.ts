@@ -11,20 +11,27 @@ export class ProductionMachineHistoryDto extends AbstractDto {
     @ApiProperty({ format: 'date-time' })
     usedAt: string;
 
-    @ApiProperty({ type: ProductionTaskDto })
-    productionTask: ProductionTaskDto;
+    @ApiProperty()
+    productionTaskId: number;
 
-    @ApiProperty({ type: ProductionMachineDto })
-    productionMachine: ProductionMachineDto;
+    @ApiProperty()
+    productionMachineId: number;
 
-    @ApiProperty({ type: UserDto })
-    user: UserDto;
+    @ApiProperty()
+    userId: number;
 
-    constructor(productionMachineHistory: ProductionMachineHistoryEntity) {
+    constructor(
+        productionMachineHistory: ProductionMachineHistoryEntity,
+        relations: {
+            productionTask: ProductionTaskDto;
+            productionMachine: ProductionMachineDto;
+            user: UserDto;
+        },
+    ) {
         super(productionMachineHistory);
         this.usedAt = productionMachineHistory.usedAt;
-        this.productionTask = productionMachineHistory.productionTask;
-        this.productionMachine = productionMachineHistory.productionMachine;
-        this.user = productionMachineHistory.user;
+        this.productionTaskId = relations.productionTask.id;
+        this.productionMachineId = relations.productionMachine.id;
+        this.userId = relations.user.id;
     }
 }

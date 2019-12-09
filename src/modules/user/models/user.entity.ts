@@ -6,6 +6,7 @@ import { UserAuthEntity } from './user-auth.entity';
 import { UserSalaryEntity } from './user-salary.entity';
 import { ProductionMachineHistoryEntity } from '../../production/models/production-machine-history.entity';
 import { ProductionTaskEntity } from '../../production/models/production-task.entity';
+import { IUser } from '../interfaces/user.interface';
 
 @Entity({ name: 'users' })
 export class UserEntity extends AbstractEntity<UserDto> {
@@ -42,14 +43,22 @@ export class UserEntity extends AbstractEntity<UserDto> {
     @Column('timestamp with time zone', { nullable: true })
     lastLogout: string;
 
-    @OneToOne(type => UserAuthEntity, userAuth => userAuth.user, {
-        nullable: false,
-    })
+    @OneToOne(
+        type => UserAuthEntity,
+        userAuth => userAuth.user,
+        {
+            nullable: false,
+        },
+    )
     userAuth: UserAuthEntity;
 
-    @OneToOne(type => UserSalaryEntity, userSalary => userSalary.user, {
-        nullable: false,
-    })
+    @OneToOne(
+        type => UserSalaryEntity,
+        userSalary => userSalary.user,
+        {
+            nullable: false,
+        },
+    )
     userSalary: UserSalaryEntity;
 
     @OneToMany(

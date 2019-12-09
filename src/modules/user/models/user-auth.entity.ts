@@ -11,6 +11,7 @@ import { RoleType } from '../../../common/constants/role-type';
 import { UserAuthDto } from '../dto/user-auth.dto';
 import { PasswordTransformer } from '../utils/password.transformer';
 import { UserEntity } from './user.entity';
+import { IUserAuth } from '../interfaces/user-auth.interface';
 
 @Entity({ name: 'users_auth' })
 export class UserAuthEntity extends AbstractEntity<UserAuthDto> {
@@ -24,7 +25,11 @@ export class UserAuthEntity extends AbstractEntity<UserAuthDto> {
     @Column({ nullable: true, transformer: new PasswordTransformer() })
     password: string;
 
-    @OneToOne(type => UserEntity, user => user.userAuth, { nullable: false })
+    @OneToOne(
+        type => UserEntity,
+        user => user.userAuth,
+        { nullable: false },
+    )
     @JoinColumn({ name: 'user_id' })
     user: UserEntity;
 

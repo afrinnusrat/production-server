@@ -9,6 +9,7 @@ import { UserSalaryDto } from '../dto/user-salary.dto';
 import { ContractType } from '../../../common/constants/contract-type';
 import { AbstractEntity } from '../../../common/models/abstract.entity';
 import { UserEntity } from './user.entity';
+import { IUserSalary } from '../interfaces/user-salary.interface';
 
 @Entity({ name: 'users_salary' })
 export class UserSalaryEntity extends AbstractEntity<UserSalaryDto> {
@@ -25,7 +26,11 @@ export class UserSalaryEntity extends AbstractEntity<UserSalaryDto> {
     @UpdateDateColumn({ type: 'date' })
     updatedAt: string;
 
-    @OneToOne(type => UserEntity, user => user.userSalary, { nullable: false })
+    @OneToOne(
+        type => UserEntity,
+        user => user.userSalary,
+        { nullable: false },
+    )
     @JoinColumn({ name: 'user_id' })
     user: UserEntity;
 

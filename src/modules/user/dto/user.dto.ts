@@ -5,6 +5,9 @@ import { AbstractDto } from '../../../common/dto/abstract.dto';
 import { UserEntity } from '../models/user.entity';
 import { UserAuthDto } from './user-auth.dto';
 import { UserSalaryDto } from './user-salary.dto';
+import { IUser } from '../interfaces/user.interface';
+import { UserAuthEntity } from '../models/user-auth.entity';
+import { UserSalaryEntity } from '../models/user-salary.entity';
 
 export class UserDto extends AbstractDto {
     @ApiProperty()
@@ -46,7 +49,10 @@ export class UserDto extends AbstractDto {
     @ApiProperty({ type: UserSalaryDto })
     userSalary: UserSalaryDto;
 
-    constructor(user: UserEntity) {
+    constructor(
+        user: UserEntity,
+        relations: { userAuth: UserAuthDto; userSalary: UserSalaryDto },
+    ) {
         super(user);
         this.firstName = user.firstName;
         this.lastName = user.lastName;
@@ -59,7 +65,7 @@ export class UserDto extends AbstractDto {
         this.createdAt = user.createdAt;
         this.lastLogin = user.lastLogin;
         this.lastLogout = user.lastLogout;
-        this.userAuth = user.userAuth;
-        this.userSalary = user.userSalary;
+        this.userAuth = relations.userAuth;
+        this.userSalary = relations.userSalary;
     }
 }

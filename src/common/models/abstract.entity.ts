@@ -1,17 +1,13 @@
 'use strict';
 
-import {
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-    Column,
-    Generated,
-} from 'typeorm';
+import { PrimaryGeneratedColumn, Column, Generated } from 'typeorm';
 
 import { UtilsService } from '../../providers/services/utils.service';
 import { AbstractDto } from '../dto/abstract.dto';
+import { IAbstract } from '../interfaces/abstract.interface';
 
-export abstract class AbstractEntity<T extends AbstractDto = AbstractDto> {
+export abstract class AbstractEntity<T extends AbstractDto = AbstractDto>
+    implements IAbstract {
     @PrimaryGeneratedColumn('increment')
     id: number;
 

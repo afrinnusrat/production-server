@@ -3,7 +3,7 @@ import * as mime from 'mime-types';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from './config.service';
 import { GeneratorService } from './generator.service';
-import { IFile } from '../../interfaces/file.interface';
+import { IFile } from '../interfaces/file.interface';
 
 @Injectable()
 export class AwsS3Service {
@@ -27,9 +27,9 @@ export class AwsS3Service {
     }
 
     async uploadImage(file: IFile) {
-        const fileName = this.generatorService.fileName(<string>(
-            mime.extension(file.mimetype)
-        ));
+        const fileName = this.generatorService.fileName(
+            <string>mime.extension(file.mimetype),
+        );
         const key = 'images/' + fileName;
         await this._s3
             .putObject({

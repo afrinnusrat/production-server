@@ -3,19 +3,14 @@ import { FindConditions, UpdateResult } from 'typeorm';
 import { UserEntity } from '../models/user.entity';
 import { UserRegisterDto } from '../../auth/dto/user-register.dto';
 import { UserRepository } from '../repositories/user.repository';
-import { IFile } from '../../../interfaces/file.interface';
 import { ValidatorService } from '../../../shared/services/validator.service';
-import { FileNotImageException } from '../../../exceptions/file-not-image.exception';
 import { AwsS3Service } from '../../../shared/services/aws-s3.service';
 import { UsersPageOptionsDto } from '../dto/users-page-options.dto';
 import { PageMetaDto } from '../../../common/dto/page-meta.dto';
 import { UsersPageDto } from '../dto/users-page.dto';
 import { UserAuthRepository } from '../repositories/user-auth.repository';
 import { UserSalaryRepository } from '../repositories/user-salary.repository';
-import { UserAuthEntity } from '../models/user-auth.entity';
-import { UserSalaryEntity } from '../models/user-salary.entity';
 import { UserDto } from '../dto/user.dto';
-import { UserLoginDto } from 'modules/auth/dto/user-login.dto';
 import { format } from 'date-fns';
 
 @Injectable()
@@ -83,9 +78,13 @@ export class UserService {
     ): Promise<UsersPageDto | any> {
         const queryBuilder = this.userRepository.createQueryBuilder('user');
         const [users, usersCount] = await queryBuilder
+            .leftJoinAndSelect('user.userAuth', 'userAuth')
+            .leftJoinAndSelect('user.userSalary', 'userSalary')
             .skip(pageOptionsDto.skip)
             .take(pageOptionsDto.take)
             .getManyAndCount();
+
+        console.log(users.toDtos());
 
         const pageMetaDto = new PageMetaDto({
             pageOptionsDto,

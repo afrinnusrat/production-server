@@ -7,6 +7,7 @@ import { AbstractDto } from '../../../common/dto/abstract.dto';
 import { ContractType } from '../../../common/constants/contract-type';
 import { UserSalaryEntity } from '../models/user-salary.entity';
 import { UserDto } from './user.dto';
+import { IUserSalary } from '../interfaces/user-salary.interface';
 
 export class UserSalaryDto extends AbstractDto {
     @ApiProperty()
@@ -18,10 +19,14 @@ export class UserSalaryDto extends AbstractDto {
     @ApiProperty({ format: 'date' })
     updatedAt: string;
 
-    constructor(userSalary: UserSalaryEntity) {
+    @ApiProperty()
+    userId: number;
+
+    constructor(userSalary: UserSalaryEntity, user: UserDto) {
         super(userSalary);
         this.salary = userSalary.salary;
         this.contractType = userSalary.contractType;
         this.updatedAt = userSalary.updatedAt;
+        this.userId = user.id;
     }
 }

@@ -6,6 +6,7 @@ import { ProductionTasksPageDto } from '../dto/production-tasks-page.dto';
 import { UserEntity } from '../../user/models/user.entity';
 import { FindConditions } from 'typeorm';
 import { ProductionTaskEntity } from '../models/production-task.entity';
+import { ProductionTaskDto } from '../dto/production-task.dto';
 
 @Injectable()
 export class ProductionTaskService {
@@ -15,7 +16,7 @@ export class ProductionTaskService {
 
     async getTask(
         findData: FindConditions<UserEntity>,
-    ): Promise<ProductionTaskEntity> {
+    ): Promise<ProductionTaskDto> {
         const { id } = findData;
         const queryBuilder = this.productionTaskRepository.createQueryBuilder(
             'productionTask',
@@ -29,7 +30,7 @@ export class ProductionTaskService {
 
         console.log(productionTask);
 
-        return productionTask;
+        return productionTask.toDto();
     }
 
     async getTasks(

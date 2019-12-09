@@ -7,6 +7,7 @@ import { AbstractDto } from '../../../common/dto/abstract.dto';
 import { UserAuthEntity } from '../models/user-auth.entity';
 import { UserDto } from './user.dto';
 import { UserEntity } from '../models/user.entity';
+import { IUserAuth } from '../interfaces/user-auth.interface';
 
 export class UserAuthDto extends AbstractDto {
     @ApiProperty({ enum: RoleType })
@@ -18,10 +19,14 @@ export class UserAuthDto extends AbstractDto {
     @ApiPropertyOptional()
     password: string;
 
-    constructor(userAuth: UserAuthEntity) {
+    @ApiProperty()
+    userId: number;
+
+    constructor(userAuth: UserAuthEntity, user: UserDto) {
         super(userAuth);
         this.role = userAuth.role;
         this.login = userAuth.login;
         this.password = userAuth.password;
+        this.userId = user.id;
     }
 }

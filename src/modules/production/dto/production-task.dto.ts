@@ -21,23 +21,26 @@ export class ProductionTaskDto extends AbstractDto {
     @ApiProperty()
     createdAt: string;
 
-    @ApiProperty({ type: CustomerDto })
-    customer: CustomerDto;
+    @ApiProperty()
+    customerId: number;
 
-    @ApiProperty({ type: UserDto })
-    user: UserDto;
+    @ApiProperty()
+    userId: number;
 
-    @ApiProperty({ type: UserDto })
-    master: UserDto;
+    @ApiProperty()
+    masterId: number;
 
-    constructor(productionTask: ProductionTaskEntity) {
+    constructor(
+        productionTask: ProductionTaskEntity,
+        relations: { customer: CustomerDto; user: UserDto },
+    ) {
         super(productionTask);
         this.name = productionTask.name;
         this.quantity = productionTask.quantity;
         this.duration = productionTask.duration;
         this.createdAt = productionTask.createdAt;
-        this.customer = productionTask.customer;
-        this.user = productionTask.user;
-        this.master = productionTask.master;
+        this.customerId = relations.customer.id;
+        this.userId = relations.user.id;
+        this.masterId = relations.user.id;
     }
 }
