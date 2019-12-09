@@ -28,7 +28,7 @@ export class ProductionTaskDto extends AbstractDto {
     user: UserDto;
 
     @ApiProperty({ type: UserDto })
-    master: UserEntity;
+    master: UserDto;
 
     constructor(productionTask: ProductionTaskEntity) {
         super(productionTask);

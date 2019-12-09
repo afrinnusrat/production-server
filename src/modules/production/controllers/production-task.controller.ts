@@ -20,6 +20,10 @@ import { AuthUserInterceptor } from '../../../interceptors/auth-user-interceptor
 import { ProductionTaskService } from '../services/production-task.service';
 import { ProductionTasksPageDto } from '../dto/production-tasks-page.dto';
 import { ProductionTasksPageOptionsDto } from '../dto/production-tasks-page-options.dto';
+import { AuthUser } from 'decorators/auth-user.decorator';
+import { UserEntity } from 'modules/user/models/user.entity';
+import { ProductionTaskDto } from '../dto/production-task.dto';
+import { ProductionTaskEntity } from '../models/production-task.entity';
 
 @Controller('production')
 @ApiTags('Production')
@@ -29,7 +33,7 @@ import { ProductionTasksPageOptionsDto } from '../dto/production-tasks-page-opti
 export class ProductionTaskController {
     constructor(private _productionTaskService: ProductionTaskService) {}
 
-    @Get('/tasks')
+    @Get('tasks')
     @Roles(RoleType.Master, RoleType.Admin)
     @HttpCode(HttpStatus.OK)
     @ApiOkResponse({
@@ -43,14 +47,16 @@ export class ProductionTaskController {
         return this._productionTaskService.getTasks(pageOptionsDto);
     }
 
-    //TODO: create task controller
-    // @Get('/task')
-    // @Roles(RoleType.Worker)
-    // @ApiOkResponse({
-    //     description: 'Get production tasks list',
-    //     type: ProductionTasksPageDto,
-    // })
-    // productionTask() {
-
-    // }
+    @Get('task')
+    @Roles(RoleType.Worker)
+    @HttpCode(HttpStatus.OK)
+    @UseGuards(AuthGuard)
+    @UseInterceptors(AuthUserInterceptor)
+    @ApiBearerAuth()
+    @ApiOkResponse({
+        description: 'Get task',
+    })
+    productionTask(@AuthUser() user: UserEntity): Promise<ProductionTaskDto> {
+        return this._productionTaskService.getTask(user);
+    }
 }

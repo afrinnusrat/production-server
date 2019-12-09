@@ -31,7 +31,7 @@ import { ProductionMachinesHistoryPageOptionsDto } from '../dto/production-machi
 export class ProductionMachineController {
     constructor(private _productionMachineService: ProductionMachineService) {}
 
-    @Get('/machines')
+    @Get('machines')
     @Roles(RoleType.Master, RoleType.Admin)
     @HttpCode(HttpStatus.OK)
     @ApiOkResponse({
@@ -45,7 +45,7 @@ export class ProductionMachineController {
         return this._productionMachineService.getMachines(pageOptionsDto);
     }
 
-    @Get('/machines/history')
+    @Get('machines/history')
     @Roles(RoleType.Master, RoleType.Admin)
     @HttpCode(HttpStatus.OK)
     @ApiOkResponse({

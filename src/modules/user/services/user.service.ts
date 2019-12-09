@@ -87,8 +87,6 @@ export class UserService {
             .take(pageOptionsDto.take)
             .getManyAndCount();
 
-        console.log(users);
-
         const pageMetaDto = new PageMetaDto({
             pageOptionsDto,
             itemCount: usersCount,
